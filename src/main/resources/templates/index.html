@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Management System</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+
+<body>
+
+<div class="navbar">
+    <a href="/">🏠 Dashboard</a>
+    <a href="/students/page">👨‍🎓 Students</a>
+    <a href="/modules/page">📘 Modules</a>
+    <a href="/grades/page">📝 Grades</a>
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit" style="background:none; border:none; color:#e2e8f0; font-weight:700; cursor:pointer;">
+            🚪 Logout
+        </button>
+    </form>
+</div>
+
+<div class="container">
+    <div class="hero">
+        <h1>🎓 Student Management System</h1>
+        <p>
+            A full-stack academic administration platform for managing students,
+            modules, grades, and performance insights through a clean and modern dashboard.
+        </p>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="stat-card indigo">
+            <h3>👨‍🎓 Total Students</h3>
+            <p th:text="${studentCount}">0</p>
+        </div>
+
+        <div class="stat-card sky">
+            <h3>📘 Total Modules</h3>
+            <p th:text="${moduleCount}">0</p>
+        </div>
+
+        <div class="stat-card green">
+            <h3>📝 Total Grades</h3>
+            <p th:text="${gradeCount}">0</p>
+        </div>
+
+        <div class="stat-card orange">
+            <h3>📊 Average Grade</h3>
+            <p th:text="${averageGrade}">0</p>
+        </div>
+
+        <div class="stat-card pink">
+            <h3>✅ Pass Count</h3>
+            <p th:text="${passCount}">0</p>
+        </div>
+
+        <div class="stat-card red">
+            <h3>❌ Fail Count</h3>
+            <p th:text="${failCount}">0</p>
+        </div>
+    </div>
+
+    <div class="chart-grid">
+        <div class="chart-card">
+            <h2>📈 System Overview</h2>
+            <div class="chart-wrapper">
+                <canvas id="overviewChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h2>✅ Grade Outcomes</h2>
+            <div class="chart-wrapper">
+                <canvas id="resultsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <h2>Recent Students</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+            <tr th:each="student : ${recentStudents}">
+                <td th:text="${student.id}"></td>
+                <td th:text="${student.name}"></td>
+                <td th:text="${student.email}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Recent Modules</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Module Name</th>
+                <th>Module Code</th>
+            </tr>
+            <tr th:each="module : ${recentModules}">
+                <td th:text="${module.id}"></td>
+                <td th:text="${module.moduleName}"></td>
+                <td th:text="${module.moduleCode}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Recent Grades</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Student</th>
+                <th>Module</th>
+                <th>Score</th>
+                <th>Classification</th>
+            </tr>
+            <tr th:each="grade : ${recentGrades}">
+                <td th:text="${grade.id}"></td>
+                <td th:text="${grade.student.name}"></td>
+                <td th:text="${grade.module.moduleName}"></td>
+                <td th:text="${grade.score}"></td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${grade.classificationClass}"
+                          th:text="${grade.classification}">
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        Final Year Project - Student Management System
+    </div>
+</div>
+
+<script th:inline="javascript">
+    const studentCount = [[${studentCountNumber}]];
+    const moduleCount = [[${moduleCountNumber}]];
+    const gradeCount = [[${gradeCountNumber}]];
+    const passCount = [[${passCountNumber}]];
+    const failCount = [[${failCountNumber}]];
+
+    const overviewCtx = document.getElementById('overviewChart').getContext('2d');
+    new Chart(overviewCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Students', 'Modules', 'Grades'],
+            datasets: [{
+                label: 'Total Count',
+                data: [studentCount, moduleCount, gradeCount],
+                backgroundColor: [
+                    '#4f46e5',
+                    '#0ea5e9',
+                    '#10b981'
+                ],
+                borderRadius: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const resultsCtx = document.getElementById('resultsChart').getContext('2d');
+    new Chart(resultsCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Pass', 'Fail'],
+            datasets: [{
+                data: [passCount, failCount],
+                backgroundColor: ['#10b981', '#ef4444']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+</script>
+</body>
+</html>

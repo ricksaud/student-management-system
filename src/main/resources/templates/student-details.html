@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Details</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/">🏠 Dashboard</a>
+    <a href="/students/page">👨‍🎓 Students</a>
+    <a href="/modules/page">📘 Modules</a>
+    <a href="/grades/page">📝 Grades</a>
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit" style="background:none; border:none; color:#e2e8f0; font-weight:700; cursor:pointer;">
+            🚪 Logout
+        </button>
+    </form>
+</div>
+
+<div class="container">
+    <h1 class="page-title">Student Details</h1>
+
+    <div class="card">
+        <h2>Student Information</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <strong>Student ID</strong>
+                <span th:text="${studentDetails.id}"></span>
+            </div>
+            <div class="info-item">
+                <strong>Name</strong>
+                <span th:text="${studentDetails.name}"></span>
+            </div>
+            <div class="info-item">
+                <strong>Email</strong>
+                <span th:text="${studentDetails.email}"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Performance Summary</h2>
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h3>Modules Taken</h3>
+                <p th:text="${moduleCount}">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Average Score</h3>
+                <p th:text="${averageScore}">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Pass Count</h3>
+                <p th:text="${passCount}">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Fail Count</h3>
+                <p th:text="${failCount}">0</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Academic Results</h2>
+        <table>
+            <tr>
+                <th>Grade ID</th>
+                <th>Module</th>
+                <th>Score</th>
+                <th>Classification</th>
+            </tr>
+            <tr th:each="grade : ${studentGrades}">
+                <td th:text="${grade.id}"></td>
+                <td th:text="${grade.module.moduleName}"></td>
+                <td th:text="${grade.score}"></td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${grade.classificationClass}"
+                          th:text="${grade.classification}">
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <a href="/students/page">← Back to Students</a>
+    </div>
+
+    <div class="footer">
+        Final Year Project - Student Management System
+    </div>
+</div>
+
+</body>
+</html>

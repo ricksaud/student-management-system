@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register - Student Management System</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <h1>📝 Create Account</h1>
+        <p>Register as an administrative user.</p>
+    </div>
+
+    <div class="card">
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+        <form th:action="@{/register}" method="post">
+            <label>Username</label>
+            <input type="text" name="username" required>
+
+            <label>Password</label>
+            <input type="password" name="password" required>
+
+            <div class="button-row">
+                <button type="submit">Register</button>
+                <a href="/login" class="btn-link btn-secondary">Back to Login</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
