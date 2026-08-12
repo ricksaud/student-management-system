@@ -18,9 +18,6 @@ A full-stack web application developed using Spring Boot for managing students, 
 - Thymeleaf
 - Chart.js
 
-## Screenshots
-(Add screenshots here)
-
 ## How to Run
 1. Clone the repository:
    git clone https://github.com/ricksaud/student-management-system.git
@@ -35,4 +32,4 @@ A full-stack web application developed using Spring Boot for managing students, 
 4. Run the project
 
 ## Author
-Rick Saud
+Ricardo Souto
